@@ -1,0 +1,588 @@
+[
+    {
+        "id": "34b8699fa1bd72b5",
+        "type": "tab",
+        "label": "start",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9b93b44814325e7b",
+        "type": "mqtt-broker",
+        "name": "localhost",
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "8074496f82b90ce4",
+        "type": "inject",
+        "z": "34b8699fa1bd72b5",
+        "name": "start",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "x": 90,
+        "y": 120,
+        "wires": [
+            [
+                "7b8ada441fb92aa3"
+            ]
+        ]
+    },
+    {
+        "id": "392a32a7d18d1265",
+        "type": "function",
+        "z": "34b8699fa1bd72b5",
+        "name": "init setting",
+        "func": "var lib = global.get('LIB');\nvar bat_cl = [];\nconst prefix = global.get(\"setup_prefix\");\nconst dimmers = global.get(\"setup_Dimmer\");\nconst sensors = global.get(\"setup_Sensor\");\nconst contact = global.get(\"setup_Contact\");\nconst motion = global.get(\"setup_Motion\");\nconst clapan = global.get(\"setup_Clapan\");\nvar tp; var gp; var l;\nif (dimmers){\nfor (let i = 1; i < dimmers+1; i++) {\n    if (i<10){l=\"0\"+i;} else {l=\"\"+i;} // если номер устройства меньше 10 то дописываем вперед 0)\n    tp = prefix+\"setup/Dimmer\"+l+\"/night_brightness\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n    tp = prefix+\"setup/Dimmer\"+l+\"/night_brightness_l1\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n    tp = prefix+\"setup/Dimmer\"+l+\"/night_brightness_l2\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n    tp = prefix+\"Dimmer\"+l+\"/brightness\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n    tp = prefix+\"Dimmer\"+l+\"/brightness_l1\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n    tp = prefix+\"Dimmer\"+l+\"/brightness_l2\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n}}\nif (sensors){\nfor (let i = 1; i < sensors+1; i++) {\n    if (i<10){l=\"0\"+i;} else {l=\"\"+i;} // если номер устройства меньше 10 то дописываем вперед 0\n    tp = prefix+\"setup/Sensor\"+l+\"/temp\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n    tp = prefix+\"setup/Sensor\"+l+\"/fan_auto\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n    tp = prefix+\"setup/Sensor\"+l+\"/fan_hum\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n}}\nif (contact){\nfor (let i = 1; i < contact+1; i++) {\n    if (i<10){l=\"0\"+i;} else {l=\"\"+i;} // если номер устройства меньше 10 то дописываем вперед 0\n    tp = prefix+\"setup/Contact\"+l+\"/auto\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n    tp = prefix+\"setup/Contact\"+l+\"/sec\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n}}\nif (contact){\nfor (let i = 1; i < contact+1; i++) {\n    if (i<10){l=\"0\"+i;} else {l=\"\"+i;} // если номер устройства меньше 10 то дописываем вперед 0\n    tp = prefix+\"setup/Motion\"+l+\"/auto\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n    tp = prefix+\"setup/Motion\"+l+\"/sec\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n}}\nif (clapan){\nfor (let i = 1; i < clapan+1; i++) {\n    if (i<10){l=\"0\"+i;} else {l=\"\"+i;} // если номер устройства меньше 10 то дописываем вперед 0\n    tp = prefix+\"Clapan\"+l+\"/local_temperature\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n    tp = prefix+\"Clapan\"+l+\"/current_heating_setpoint\"; gp = global.get(lib.ConvName(tp), \"file\");\n    if (gp && gp!=\"\") {node.send({topic:tp, payload:gp});}\n}}\n\n\nbat_cl[1] = \"z2m/setup/night_mode\";\nbat_cl[2] = \"z2m/setup/night_mode_auto\";\nbat_cl[3] = \"z2m/setup/night_mode_on_h\";\nbat_cl[4] = \"z2m/setup/night_mode_on_m\";\nbat_cl[5] = \"z2m/setup/night_mode_off_h\";\nbat_cl[6] = \"z2m/setup/night_mode_off_m\";\nfor (let i = 1; i < 7; i++) {\n    node.send({topic:bat_cl[i], payload:global.get(lib.ConvName(bat_cl[i]), \"file\")});\n}\nreturn;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 160,
+        "wires": [
+            [
+                "937f58ea176c69b0"
+            ]
+        ]
+    },
+    {
+        "id": "937f58ea176c69b0",
+        "type": "mqtt out",
+        "z": "34b8699fa1bd72b5",
+        "name": "",
+        "topic": "",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "9b93b44814325e7b",
+        "x": 530,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "7b8ada441fb92aa3",
+        "type": "function",
+        "z": "34b8699fa1bd72b5",
+        "name": "init lib",
+        "func": "var lib = {};\nfunction sleep (time) {\nreturn new Promise((resolve) => setTimeout(resolve, time));\n}\nasync function SirenaSend(nmsg1,nmsg2,Time) { \n    node.send(nmsg1);\n    await sleep(Time); // Пауза  \n    node.send(nmsg2);\n} \n\n\nlib.test = (name, pos) => {\n    if (pos == undefined) {node.warn(\"undefined\")}\n}\n\n// функция управления сиреной \nlib.Sirena = (F_name, status, melody, prefi) => {\n    var nmsg1={};\n    var nmsg2={};\n    var pref = global.get(\"setup.prefix\");\n    if (!prefi) {prefi = 0;};\n    nmsg1.topic = pref[prefi]+\"/\"+F_name+\"/set/ringtone\";\n    nmsg2.topic = pref[prefi]+\"/\"+F_name+\"/set/alarm\";\n    nmsg1.payload = melody;\n    nmsg2.payload = status;\n    if (status == \"OFF\" || !melody || melody == \"\") { node.send(nmsg2); } else { \n        SirenaSend(nmsg1, nmsg2, 1000); \n        }   \n}\n\n// функция для организации задержки sleep, пример использования await sleep(5000);\nlib.sleep = (time) => { \n    return new Promise((resolve) => setTimeout(resolve, time));\n}\n\n\n// функция управления рольставнями\n    lib.Curtain = (F_name, pos, prefi) => { \n        var nmsg={};\n        if (isNaN(pos)) {\n            if (global.get(F_name+\"_moving\") == \"STOP\") {\n                nmsg.payload = pos; \n                global.set (F_name+\"_state_old\", pos);\n            } \n            else \n            {\n                if (pos == \"OPEN\") { if (global.get(F_name+\"_moving\") == \"UP\") {nmsg.payload = \"STOP\";} else {nmsg.payload = pos;}}\n                if (pos == \"CLOSE\") { if (global.get(F_name+\"_moving\") == \"DOWN\") {nmsg.payload = \"STOP\";} else {nmsg.payload = pos;}} \n                if (pos == \"STOP\") {nmsg.payload = \"STOP\";}\n            }\n            var pref = global.get(\"setup.prefix\");\n            if (!prefi) {prefi = 0;}\n            nmsg.topic = pref[prefi]+\"/\"+F_name+\"/set/state\"\n            \n        } else {\n            nmsg.payload = Math.abs(pos);\n            var pref = global.get(\"setup.prefix\");\n            if (!prefi) {prefi = 0;}\n            nmsg.topic = pref[prefi]+\"/\"+F_name+\"/set/position\";\n\n        }\n        node.send(nmsg);\n    }\n// функция управления рольставнями одной кнопкой\n    lib.CurtainB = (F_name, prefi) => { \n        var nmsg={};\n        var position = global.get(F_name+\"_position\");\n        node.warn (\"OK\");\n        if (global.get(F_name+\"_moving\") == \"STOP\") \n            if (position == 0) {\n                    nmsg.payload = \"OPEN\"; \n                    global.set (F_name+\"_state_old\", \"OPEN\");\n                } else if (position > 98) {\n                    nmsg.payload = \"CLOSE\";  \n                    global.set (F_name+\"_state_old\", \"CLOSE\");\n                } else {\n                    if (global.get (F_name+\"_state_old\") == \"OPEN\") {\n                        nmsg.payload = \"CLOSE\";  \n                        global.set (F_name+\"_state_old\", \"CLOSE\");\n                    } else {\n                        nmsg.payload = \"OPEN\";  \n                        global.set (F_name+\"_state_old\", \"OPEN\");\n                    }\n                }\n            else \n            {\n                nmsg.payload = \"STOP\";\n            }\n            var pref = global.get(\"setup.prefix\");\n            if (!prefi) {prefi = 0;}\n            nmsg.topic = pref[prefi]+\"/\"+F_name+\"/set/state\"\n\n        node.send(nmsg);\n    }\n// функция управления диммером/реле режим \"переключения\" с ночным режимом\n    lib.Dimmer = (F_name, pos, state, proc, prefi) => {\n        var nmsg = {}; var nmsg2 = {}; var status; var status_b; var mn;\n        if (proc) {mn=2.54} else {mn=1}\n        if (pos == undefined || pos == \"\") { pos=\"\"} else {if(!isNaN(pos)) {pos = \"_l\"+pos} else {pos = \"_\"+pos}}\n        if (state == undefined) {\n            if (global.get(F_name+\"_state\"+pos)) {status = global.get(F_name+\"_state\"+pos);} else {status = global.get(F_name+\"_state\"+pos, \"file\");}  // статус вкл/выкл\n        } else {\n            if (state==\"OFF\" || state==false) {status = \"ON\"} else {status = \"OFF\"}\n        }\n        if (global.get(F_name+\"_brightness\"+pos))   {status_b = global.get(F_name+\"_brightness\"+pos);} else {status_b = global.get(F_name+\"_brightness\"+pos, \"file\");} // текущая яркость\n        var status_a = global.get(\"setup_\"+F_name+\"_night_auto\"+pos, \"file\"); // включен ли ночной режим\n        var status_n = global.get(\"setup_\"+F_name+\"_night_brightness\"+pos, \"file\"); // яркость в ночном режиме\n        var status_d = global.get(\"setup_\"+F_name+\"_day_brightness\"+pos, \"file\");  // яркость в дневном режиме\n        var night = global.get(\"setup_night_mode\"); // включен ли ночной режим\n        // сохранение значений яркости в дневном режиме\n        if (night!=\"ON\" || status_a!=\"ON\") {\n            global.set(\"setup_\"+F_name+\"_day_brightness\"+pos, status_b, \"file\");\n            status_d = global.get(\"setup_\"+F_name+\"_day_brightness\"+pos, \"file\");\n        }\n            var pref = global.get(\"setup.prefix\");\n            if (!prefi) {prefi = 0;}\n        // включение выключение в зависимости от режима\n        if (status==\"ON\") { // \n            nmsg.payload =\"OFF\";\n            nmsg.topic = pref[prefi]+\"/\"+F_name+\"/set/state\"+pos;\n        } else {\n            if (night==\"ON\" && status_a==\"ON\") {\n                nmsg.payload =\"ON\";\n                nmsg.topic = pref[prefi]+\"/\"+F_name+\"/set/state\"+pos;\n                if(!isNaN(state) && state!=true && state!=false) {nmsg2.payload = Math.round(state*mn);} else {nmsg2.payload = Math.round(status_n);}\n                nmsg2.payload = status_n;\n                nmsg2.topic = pref[prefi]+\"/\"+F_name+\"/set/brightness\"+pos;\n                node.send(nmsg2)\n\t        } else {\n                nmsg.payload =\"ON\";\n                nmsg.topic = pref[prefi]+\"/\"+F_name+\"/set/state\"+pos;\n                if(!isNaN(state) && state!=true && state!=false) {nmsg2.payload = Math.round(state*mn);} else {nmsg2.payload = status_d;}\n                nmsg2.topic = pref[prefi]+\"/\"+F_name+\"/set/brightness\"+pos;\n                node.send(nmsg2);\n            }\n        }\n        node.send(nmsg);\n    } \n// функция управления диммером режим \"диммирование\"     \n    lib.DimmerB = (F_name, pos, brightness, prefi) => {\n        var nmsg={};\n        if (!pos || pos == \"\") { pos = \"\";} else {pos = \"_l\"+pos;}\n        if (!brightness) { brightness = 254;}       \n        nmsg.payload = brightness;\n            var pref = global.get(\"setup.prefix\");\n            if (!prefi) {prefi = 0;}\n            nmsg.topic = pref[prefi]+\"/\"+F_name+\"/set/brightness\"+pos;\n        node.send(nmsg);\n    }\n// функция управления реле tuya    \n    lib.RelayTuya = (F_name, pos, state) => {\n        var nmsg = {}; var status; var stat;\n        if (!pos || pos == \"\") { pos = 1;}\n        if (global.get(F_name+\"_\"+pos)) \n                {status = global.get(F_name+\"_\"+pos);} \n            else \n                {status = global.get(F_name+\"_\"+pos, \"file\");}  // статус вкл/выкл\n            nmsg.topic = \"tuya/\"+F_name;\n        if (state == undefined || state == \"TOGGLE\") {\n            if (status==\"true\") {status = false} else {status = true}\n            stat = status;\n        } else {\n            if (state==\"ON\" || state==true) {status = true} else {status = false}\n            stat = status;\n        }\n        nmsg.payload = '{\"set\": '+stat+', \"dps\" : '+pos+'}'\n        node.send(nmsg);\n    }\n\n\n// функция управления диммером/реле/led режим \"переключения\" без ночного режима\n    lib.Relay = (F_name, pos, state, prefi) => {\n        var nmsg = {}; var status;\n        if (!pos || pos == \"\") { pos = \"\";} else {\n            if(!isNaN(pos)) {pos = \"_l\"+pos;} else {pos = \"_\"+pos;}\n        }            \n            if (global.get(F_name+\"_state\"+pos)) \n                {status = global.get(F_name+\"_state\"+pos);} \n            else \n                {status = global.get(F_name+\"_state\"+pos, \"file\");}  // статус вкл/выкл\n            var pref = global.get(\"setup.prefix\");\n            if (!prefi) {prefi = 0;}\n            nmsg.topic = pref[prefi]+\"/\"+F_name+\"/set/state\"+pos;\n        if (state==undefined) {\n            if (status==\"ON\") {status = \"OFF\"} else {status = \"ON\"}\n            nmsg.payload = status;\n        } else {\n            if (state==true || state==\"ON\") {state=\"ON\"} else {state=\"OFF\"}\n            nmsg.payload = state;\n        }\n        node.send(nmsg);\n    }\n// другие функции\n// функция получения имени устройства из топика\n    lib.Clear = (str) => {\n        var topic = str;\n        var pref = global.get(\"setup.prefix\");\n        var index;\n        for (index = 0; index < pref.length; ++index) {\n            topic = topic.replace(pref[index] + \"/\", \"\"); // удаляем корневой путь\n        }\n        topic = topic.substring(0,topic.search('/'));\n        return topic;\n    }\n// функция преобразования топика в переменную\n    lib.ConvName = (str) => {\n        var topic = str;\n        var pref = global.get(\"setup.prefix\");\n        var index;\n        for (index = 0; index < pref.length; ++index) {\n            topic = topic.replace(pref[index] + \"/\", \"\"); // удаляем корневой путь\n        }\n        topic = topic.replace(/\\//g, '_');\n        topic = topic.replace(/ /g, '_');\n        return topic;\n    }\n// функция уровня батареи\n    lib.Battery = (proc) => {\n        var sym; var topic; var col;\n    switch (true) {\n        case proc >= 90 && proc <= 100:\n            sym = \"fa-battery-full\"; col = \"green\";\n            break;\n        case proc >= 75 && proc < 90:\n            sym = \"fa-battery-three-quarters\"; col = \"green\";\n            break;\n        case proc >= 50 && proc < 75:\n            sym = \"fa-battery-half\"; col = \"yellow\";\n            break;\n        case proc >= 25 && proc < 50:\n            sym = \"fa-battery-quarter\"; col = \"orange\";\n            break;\n        case proc >= 0 && proc < 25:\n            sym = \"fa-battery-empty\"; col = \"red\";\n            break;\n        default:\n            sym = \"fa-battery-empty\"; col = \"gray\";\n            break;\n    }\n        topic = '<font color = \"'+col+'\" i class=\"fa '+sym+' fa-2x \"></font>'\n        return topic;\n    }\n\n\n\n\n\n\n\nglobal.set('LIB',lib)",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 120,
+        "wires": [
+            [
+                "937f58ea176c69b0"
+            ]
+        ]
+    },
+    {
+        "id": "298bc1d25d8bb4a3",
+        "type": "inject",
+        "z": "34b8699fa1bd72b5",
+        "name": "start2",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3",
+        "topic": "",
+        "x": 90,
+        "y": 160,
+        "wires": [
+            [
+                "392a32a7d18d1265"
+            ]
+        ]
+    },
+    {
+        "id": "7dbccbe1b1a886c6",
+        "type": "mqtt in",
+        "z": "34b8699fa1bd72b5",
+        "name": "",
+        "topic": "z2m/+/action",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "9b93b44814325e7b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 380,
+        "wires": [
+            [
+                "9c3813e4824824c8"
+            ]
+        ]
+    },
+    {
+        "id": "1f449ac3f27bff32",
+        "type": "function",
+        "z": "34b8699fa1bd72b5",
+        "name": "Button",
+        "func": "var bt = msg.payload; // получаем событие\nvar lib = global.get('LIB'); // подключаем функции\nvar name = lib.Clear(msg.topic); // получаем имя устройства через функцию очистки топика\n\n//if (name == \"Button01\" && bt == \"single_left\")     {lib.Dimmer(\"Dimmer11\", 1)}\n//if (name == \"Button01\" && bt == \"single_right\")    {lib.Dimmer(\"Dimmer01\", 2)}\n//if (name == \"Button02\" && bt == \"single_left\")     {lib.Relay(\"Dimmer02\", 1)}\n//if (name == \"Button02\" && bt == \"single_right\")    {lib.Relay(\"Dimmer02\", 2)}\n//if (name == \"Button02\" && bt == \"double_left\")     {lib.Curtain(\"Curtain01\",\"OPEN\")}\n//if (name == \"Button02\" && bt == \"double_right\")    {lib.Curtain(\"Curtain01\",\"CLOSE\")}\n//if (name == \"Button03\" && bt == \"single_left\")     {lib.Relay(\"Dimmer01\", 2)}\n//if (name == \"Button03\" && bt == \"single_right\")    {lib.Relay(\"Dimmer01\", 1)}\n\n//if (name == \"Contact01\")    {lib.Relay(\"Dimmer01\", 1, bt)}\n\n\n\nreturn;\n\n\n\n\n",
+        "outputs": 0,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "ce3a2130dfacdcec",
+        "type": "function",
+        "z": "34b8699fa1bd72b5",
+        "name": "ON",
+        "func": "var setting = 1; // учитывать настройки 1 - да, 0 - нет\nvar bt = msg.payload; var topic = msg.topic; var lib = global.get('LIB')\ntopic = lib.Clear(topic);\nmsg.payload = \"ON\";\nmsg.reset;\nif (setting == 0) {return msg;} else {\nif (global.get(\"setup_\"+topic+\"_auto\")==\"ON\"){\nreturn msg;\n} else {\nreturn;\n}\n}",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 425,
+        "y": 480,
+        "wires": [
+            [
+                "0f425dd6eec03f93",
+                "1f449ac3f27bff32"
+            ]
+        ]
+    },
+    {
+        "id": "a88975e1b161f02d",
+        "type": "function",
+        "z": "34b8699fa1bd72b5",
+        "name": "OFF",
+        "func": "var setting = 1; // учитывать настройки 1 - да, 0 - нет\nvar bt = msg.payload; var topic = msg.topic; var lib = global.get('LIB')\ntopic = lib.Clear(topic);\nmsg.payload = \"OFF\";\nif (setting == 0) {return msg;} else {\nmsg.delay = parseInt(global.get(\"setup_\"+topic+\"_sec\"))*1000;\nif (global.get(\"setup_\"+topic+\"_auto\")==\"ON\"){\nreturn msg;\n} else {\nreturn;\n}\n}",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 425,
+        "y": 510,
+        "wires": [
+            [
+                "0f425dd6eec03f93"
+            ]
+        ]
+    },
+    {
+        "id": "0f425dd6eec03f93",
+        "type": "trigger",
+        "z": "34b8699fa1bd72b5",
+        "name": "delay",
+        "op1": "",
+        "op2": "",
+        "op1type": "nul",
+        "op2type": "payl",
+        "duration": "250",
+        "extend": true,
+        "overrideDelay": true,
+        "units": "ms",
+        "reset": "ON",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 555,
+        "y": 510,
+        "wires": [
+            [
+                "1f449ac3f27bff32"
+            ]
+        ]
+    },
+    {
+        "id": "d6c03296fced93fb",
+        "type": "switch",
+        "z": "34b8699fa1bd72b5",
+        "name": "door",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "false",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "true",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 255,
+        "y": 460,
+        "wires": [
+            [
+                "ce3a2130dfacdcec"
+            ],
+            [
+                "a88975e1b161f02d"
+            ]
+        ]
+    },
+    {
+        "id": "51907f2ff331d48a",
+        "type": "mqtt in",
+        "z": "34b8699fa1bd72b5",
+        "name": "",
+        "topic": "z2m/+/contact",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "9b93b44814325e7b",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 90,
+        "y": 460,
+        "wires": [
+            [
+                "d6c03296fced93fb"
+            ]
+        ]
+    },
+    {
+        "id": "c5642ed796693b0e",
+        "type": "mqtt in",
+        "z": "34b8699fa1bd72b5",
+        "name": "",
+        "topic": "z2m/+/occupancy",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "9b93b44814325e7b",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 100,
+        "y": 540,
+        "wires": [
+            [
+                "2936f1d1277e89c2"
+            ]
+        ]
+    },
+    {
+        "id": "2936f1d1277e89c2",
+        "type": "switch",
+        "z": "34b8699fa1bd72b5",
+        "name": "motion",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "true",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "false",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 250,
+        "y": 540,
+        "wires": [
+            [
+                "ce3a2130dfacdcec"
+            ],
+            [
+                "a88975e1b161f02d"
+            ]
+        ]
+    },
+    {
+        "id": "9c3813e4824824c8",
+        "type": "delay",
+        "z": "34b8699fa1bd72b5",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 305,
+        "y": 380,
+        "wires": [
+            [
+                "1f449ac3f27bff32",
+                "5bb7fd39d92c592b"
+            ]
+        ]
+    },
+    {
+        "id": "bd07b2d513eec1b8",
+        "type": "comment",
+        "z": "34b8699fa1bd72b5",
+        "name": "получение событий с выключателей",
+        "info": "",
+        "x": 170,
+        "y": 350,
+        "wires": []
+    },
+    {
+        "id": "44ee01944a01bd4e",
+        "type": "comment",
+        "z": "34b8699fa1bd72b5",
+        "name": "получение событий с датчиков открытия дверей/окон",
+        "info": "",
+        "x": 220,
+        "y": 430,
+        "wires": []
+    },
+    {
+        "id": "c50dd7a6a0096751",
+        "type": "comment",
+        "z": "34b8699fa1bd72b5",
+        "name": "получение событий с датчиков движения",
+        "info": "",
+        "x": 180,
+        "y": 510,
+        "wires": []
+    },
+    {
+        "id": "e4cb509d6cc8b432",
+        "type": "comment",
+        "z": "34b8699fa1bd72b5",
+        "name": "v.1.5",
+        "info": "v1.5\n- добавлено управление сиреной\nv1.4\n- добавлена функция sleep\n- добавлена возможность задавать несколько префиксов mqtt в переменной setup.prefix в виде массива, при переходе с версии 1.3 необходимо записать переменные как указано в ноде data\nv1.3\n- оптимизирован код\n- отдельная функция сохранения данных о батареи\n\nv1.2\n- добавлено в функцию Dimmer установку яркости диммера\n\nv1.1\n- во все функции где возможно параметры \"ON\" или \"OFF\" можно вместо ON и OFF передавать true или false соответственно\n- в ноду termostat добавлено указание датчиков темературы\nv1.0\nhttps://youtu.be/SIi30xbhhH8",
+        "x": 60,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "d7ec0b53edc931be",
+        "type": "inject",
+        "z": "34b8699fa1bd72b5",
+        "name": "start",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "x": 90,
+        "y": 80,
+        "wires": [
+            [
+                "41244959c9785b5d"
+            ]
+        ]
+    },
+    {
+        "id": "c057f39c777e1e8d",
+        "type": "function",
+        "z": "34b8699fa1bd72b5",
+        "name": "mqtt battary",
+        "func": "var lib = global.get('LIB'); var bt = msg.payload; var topic = msg.topic;\nvar np = lib.ConvName(topic); // удаляем из топика лишнее и заменяем косую черту на подчеркивание\n\n// получаем дату и время\nvar today = new Date();\nvar dd1 = today.getDate();\nvar dd2 = today.getMonth();\nvar dd3 = today.getHours();\nvar dd4 = today.getMinutes();\nif (dd1<10){dd1=\"0\"+dd1;}\nif (dd2<10){dd2=\"0\"+dd2;}\nif (dd3<10){dd3=\"0\"+dd3;}\nif (dd4<10){dd4=\"0\"+dd4;}\nvar nowdate = dd2+\".\"+dd1;\nglobal.set(np+\"date\", nowdate);\nglobal.set(np+\"_date\", today);\n// записываем значение в переменную\nglobal.set(np, bt);\n",
+        "outputs": 0,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "f52bf0cfdc26c303",
+        "type": "mqtt in",
+        "z": "34b8699fa1bd72b5",
+        "name": "",
+        "topic": "z2m/+/battery",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "9b93b44814325e7b",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 90,
+        "y": 300,
+        "wires": [
+            [
+                "c057f39c777e1e8d"
+            ]
+        ]
+    },
+    {
+        "id": "e5cf9cde9479496a",
+        "type": "mqtt in",
+        "z": "34b8699fa1bd72b5",
+        "name": "",
+        "topic": "z2m/#",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "9b93b44814325e7b",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 70,
+        "y": 250,
+        "wires": [
+            [
+                "82d30a95baa88fd3"
+            ]
+        ]
+    },
+    {
+        "id": "82d30a95baa88fd3",
+        "type": "function",
+        "z": "34b8699fa1bd72b5",
+        "name": "mqtt в переменные",
+        "func": "var lib = global.get('LIB');\nvar bt = msg.payload; \nvar topic = msg.topic;\nvar nmsg={};\nvar flagok=1;\n// удаляем из топика лишнее и заменяем косую черту на подчеркивание\nvar np = lib.ConvName(topic); \n// исключаем из переменных устаройства\nif(np.includes(\"bridge\")) {flagok=0;}\nif(!np.includes(\"_\")) {flagok=0;}\nif(np.includes(\"Tuya\")) {flagok=1;}\n\n// переменные которые надо хранить в файле\nvar con = \"default\";\nif (np.indexOf(\"_current_heating_setpoint\") > -1 ) {con = \"file\";}\nif (np.indexOf(\"_local_temperature\") > -1 ) {con = \"file\";}\nif (np.indexOf(\"_state\") > -1 ) {con = \"file\";}\nif (np.indexOf(\"_brightness\") > -1 ) {con = \"file\";}\nif (np.indexOf(\"temperature\") > -1 && np.indexOf(\"Sensor\") > -1 ) {con = \"file\";}\nif (np.indexOf(\"humidity\") > -1    && np.indexOf(\"Sensor\") > -1 ) {con = \"file\";}\n\n// записываем значение в переменную\nif(flagok) {global.set(np, bt, context);}\nif(flagok) {global.set(np, bt);}\n",
+        "outputs": 0,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 250,
+        "wires": []
+    },
+    {
+        "id": "41244959c9785b5d",
+        "type": "function",
+        "z": "34b8699fa1bd72b5",
+        "name": "data",
+        "func": "// задаем начальные переменные\nvar setup = {};\nsetup.prefix = [\"z2m\", \"tuya\"]; // префикс zigbee2mqtt и пр\nsetup.dimmers = 11; // количество диммеров Dimmer01, Dimmer02 ..\nsetup.sensors = 0; // количество датчиков температуры Sensor01, Sensor02 ..\nsetup.contact = 1; // количество датчиков открытия двери/окон Contact01, Contact02 ..\nsetup.motion = 0; // количество датчиков движения Motion01, Motion02\nsetup.button = 11; //количество выключателей Button01, Button02 ..\nsetup.clapan = 5; // количество клапанов отопления\n// ---------------------------------\n\n\nglobal.set(\"setup\", setup);\n",
+        "outputs": 0,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "dd36d3c45f171bcc",
+        "type": "comment",
+        "z": "34b8699fa1bd72b5",
+        "name": "init lib manual",
+        "info": "**lib.Clear(\"топик\")**\nфункция получает имя устройства, удаляет из mqtt топика префикс, который задается в первой строке ноды Прикрепленное изображение и отбрасывает всё что после имени устройства начиная с косой черты.\nтопик \"z2m/Button01/action\" будет преобразован в \"Button01\"\n\n**lib.ConvName(\"топик\")**\nфункция преобразует топик в имя переменной, удаляет в начале префикс и заменяет все косые черты на подчеркивание.\nтопик \"z2m/Sensor01/temperature\" будет преобразован в Sensor01_temperature. Используется для формирования переменных.\n\n**lib.Curtain(\"Имя устройства\", pos, prefi)**\nфункция управления рольставнями или шторами.\nИмя устройства - имя устройства рольставни или шторы.\npos - команда, может быть числом или одной из следующих строк: \"UP\", \"DOWN\", \"STOP\"\nprefi - номер префикса в массиве setup.prefix, массив начинается с 0 (по умолчанию 0 - первый префикс)\nесли pos число то рольставням посылается команда установки позиции pos и формируется топик вида префикс+Имя устройства+\"/set/position\"\nесли одна из перечисленных строк тогда:\nесли рольставни имеют статус \"STOP\" то посылается команда pos\nесли рольставни имеют статус = команде pos то посылается команда \"STOP\"\nесли рольставни имеют статус противоположный команде pos то выполняется команда pos\nпубликуется в топик: Префикс+Имя устройства+\"/set/state\"\n\n**lib.CurtainB(\"Имя устройства\", prefi)**\nфункция управления рольставнями или шторами с помощью одной кнопки\nИмя устройства - имя устройства рольставни или шторы.\nprefi - номер префикса в массиве setup.prefix, массив начинается с 0 (по умолчанию 0 - первый префикс)\nесли рольставни имеют статус \"STOP\" и рольставни имеют позицию закрыто то посылается команда открыть, если позицию открыто то посылается команда закрыть, если промежуточную позицию то посылается команда противоположная той что была ранее послана через эту функцию перед остановкой.\nесли рольставни имеют статус не \"STOP\" то посылается команда \"STOP\"\nпубликуется в топик: Префикс+Имя устройства+\"/set/state\"\n\n**lib.Dimmer (\"Имя устройства\", pos, state, proc, prefi)**\nфункция управление диммером\nИмя устройства - имя устройства диммер.\npos - (не обязательный параметр) число - номер канала (1,2,3 ...), строка - имя канала (\"left\", \"right\")\nесли pos число то будет формироваться строка Префикс+Имя устройства+\"state_l\"+pos\nесли pos нет или \"\" то будет формироваться строка Префикс+Имя устройства+\"state\" (для одноканальных диммеров или led контроллеров)\nstate - (не обязательный параметр) статус, строка (\"ON\",\"OFF\",\"TOGGLE\", true, false или число от 1 до 255)\nесли нет то выполняется \"TOGGLE\", при чем если включен ночной режим (переменная setup_\"+Имя устройства+\"_night_auto\"+pos равна \"ON\") и статус был \"OFF\" то примет значения яркости ночного режима который установлен в файловой переменной: \"setup\"+Имя устройства+\"_night_brightness\"+pos (от 1 до 100). для устройства c именем \"Dimmer02\" второй канал переменная для ночного режима этого диммера будет \"setup_Dimmer02_night_brightness2\"\nесли state число то устанавливается яркость на заданное число\nproc - используется если state число, если есть параметр proc любое значение то state дано в процентах от 1 до 100 которое для управления диммером умножается на 2,54 и округляется\nprefi - номер префикса в массиве setup.prefix, массив начинается с 0 (по умолчанию 0 - первый префикс)\n\n**lib.DimmerB (\"Имя устройства\", pos, state, prefi)**\nфункция управления диммером режим диммирование\nИмя устройства - имя устройства диммер.\npos - (не обязательный параметр) число - номер канала (1,2,3 ...), строка - имя канала (\"left\", \"right\")\nесли pos число то будет формироваться строка Префикс+Имя устройства+\"state_l\"+pos\nесли pos нет или \"\" то будет формироваться строка Префикс+Имя устройства+\"state\" (для одноканальных диммеров или led контроллеров)\nstate - число, уровень яркости, если не указан, то 254\nprefi - номер префикса в массиве setup.prefix, массив начинается с 0 (по умолчанию 0 - первый префикс)\n\n\n**lib.Relay (\"Имя устройства\", pos, state, prefi)**\nфункция управления реле.\nИмя устройства - имя устройства диммер.\npos - (не обязательный параметр) число - номер канала (1,2,3 ...), строка - имя канала (\"left\", \"right\")\nесли pos число то будет формироваться строка Префикс+Имя устройства+\"state_l\"+pos\nstate - (не обязательный параметр) статус, строка (\"ON\",\"OFF\",\"TOGGLE\") если не указан то \"TOGGLE\"\nprefi - номер префикса в массиве setup.prefix, массив начинается с 0 (по умолчанию 0 - первый префикс)\n\n\n**lib.Battery (уровень заряда батареи)**\nформирует html строку с Font Awesome символом батареи и окрашиванием в разные цвета в зависимости от уровня заряда батареи. \n\n** await lib.sleep(миллисекунды) **\nзадержка в миллисекундах\n\n** lib.Sirena(\"Имя устройства\", state, melody, prefi) **\nфункция управления сиреной\nИмя устройства - имя устройства сирена, обязательно\nstate - (обязательный параметр) статус, строка (\"ON\",\"OFF\") включает/выключает сирену\nmelody - (не обязательно) мелодия сирены\nprefi - номер префикса в массиве setup.prefix, массив начинается с 0 (по умолчанию 0 - первый префикс)\n",
+        "x": 390,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5bb7fd39d92c592b",
+        "type": "debug",
+        "z": "34b8699fa1bd72b5",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "8df2bb1f1a0a50eb",
+        "type": "inject",
+        "z": "34b8699fa1bd72b5",
+        "name": "OnNewMinute",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "1",
+        "payload": "OnNewMinute",
+        "payloadType": "str",
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "bcda8971dd83749b"
+            ]
+        ]
+    },
+    {
+        "id": "bcda8971dd83749b",
+        "type": "function",
+        "z": "34b8699fa1bd72b5",
+        "name": "termostat",
+        "func": "cb = 5; // количество термостатов\nvar lib = global.get('LIB'); // подключаем функции\nlet bat_cl = []; let bat_c = []; let pl; \nlet bat_clt = []; let nmsg = []; let  ns = [];\nvar temp_sensor; var temp_set; var l; var cb;\n// реле управляемые клапанами отопления или теплым полом\n// установки температуры должны быть в переменной setup_ИмяДатчика_temp\n// bat_cl[i] - имя реле термостата\n// bat_cl[i] - канал реле термостата (смотри функцию Relay)\n// bat_clt[i] - тип клапана (NO нормально открытый, NC - нормально закрытый/ теплый пол)\n// ns[i] - название датчика температуры (Имя датчика)\nbat_cl[1] = \"Relay02\";  bat_c[1] = 2; bat_clt[1] = \"NC\"; ns[1] = \"Sensor01\";\nbat_cl[2] = \"Dimmer10\"; bat_c[2] = 2; bat_clt[2] = \"NO\"; ns[2] = \"Sensor02\";\nbat_cl[3] = \"Relay01\";  bat_c[3] = 1; bat_clt[3] = \"NO\"; ns[3] = \"Sensor04\";\nbat_cl[4] = \"Relay01\";  bat_c[4] = 2; bat_clt[4] = \"NO\"; ns[4] = \"Sensor05\";\nbat_cl[5] = \"Relay03\";  bat_c[5] = 1; bat_clt[5] = \"NO\"; ns[5] = \"Sensor06\";\n\n\n\nfor (let i = 1; i < cb+1; i++) {\n    if (i<10){l=\"0\"+i;} else {l=\"\"+i;}\n    if(!bat_clt[i]){bat_clt[i]=\"NO\"}\n    if(!ns[i]){ns[i]=\"Sensor\"+l}\n    temp_sensor = global.get(ns[i]+\"_temperature\", \"file\");\n    temp_set = global.get(\"setup_\"+ns[i]+\"_temp\", \"file\");\n    \n    if (temp_sensor > temp_set) {\n        if (bat_clt[i] == \"NO\") {\n            pl = \"ON\";\n        }else{\n            pl = \"OFF\";\n        }\n    } else {\n        if (bat_clt[i] == \"NO\") {\n            pl = \"OFF\";\n        }else{\n            pl = \"ON\";\n        } \n    }\n lib.Relay(bat_cl[i],bat_c[i],pl);\n\n}\n\nreturn;\n",
+        "outputs": 0,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 200,
+        "wires": []
+    }
+]
