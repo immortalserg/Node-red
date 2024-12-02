@@ -1,5 +1,6 @@
 ***Функции Node-red***
 
+**SunCalc**
 функции получения солнечных циклов, использование в функции: var SunCalc = global.get('SunCalc'); // подключение библиотеки, остальное как у автора библиотеки https://github.com/mourner/suncalc
 
 **lib.Clear("топик")**
